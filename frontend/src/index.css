@@ -6,3 +6,46 @@
    
 }
 
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.dynamic-gradient-bg {
+  background: linear-gradient(-45deg, #020617, #1e1b4b, #0f172a, #312e81);
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite;
+}
+
+.orb-1, .orb-2 {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  z-index: 0;
+  animation: floatOrb 10s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.orb-1 {
+  width: 450px;
+  height: 450px;
+  background: rgba(124, 58, 237, 0.5); /* Violet glow */
+  top: -15%;
+  left: -10%;
+}
+
+.orb-2 {
+  width: 550px;
+  height: 550px;
+  background: rgba(37, 99, 235, 0.4); /* Blue glow */
+  bottom: -15%;
+  right: -10%;
+  animation-duration: 12s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes floatOrb {
+  0% { transform: translateY(0px) scale(0.9); }
+  100% { transform: translateY(60px) scale(1.1); }
+}

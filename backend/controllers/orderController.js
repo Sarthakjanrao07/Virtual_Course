@@ -4,8 +4,8 @@ import User from "../models/userModel.js";
 import dotenv from "dotenv"
 dotenv.config()
 const razorpayInstance = new razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_SECRET,
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_SECRET,
 })
 
 export const createOrder = async (req, res) => {
@@ -18,7 +18,7 @@ export const createOrder = async (req, res) => {
     const options = {
       amount: course.price * 100, // in paisa
       currency: 'INR',
-      receipt: `${courseId}.toString()`,
+      receipt: courseId,
     };
 
     const order = await razorpayInstance.orders.create(options);
@@ -34,10 +34,17 @@ export const createOrder = async (req, res) => {
 
 export const verifyPayment = async (req, res) => {
   try {
-    
-        const {razorpay_order_id , courseId , userId} = req.body
-        const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id)
-        if(orderInfo.status === 'paid') {
+
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, courseId, userId } = req.body
+
+    const sign = razorpay_order_id + "|" + razorpay_payment_id;
+    const crypto = await import("crypto");
+    const expectedSign = crypto.default
+      .createHmac("sha256", process.env.RAZORPAY_SECRET)
+      .update(sign.toString())
+      .digest("hex");
+
+    if (razorpay_signature === expectedSign) {
       // Update user and course enrollment
       const user = await User.findById(userId);
       if (!user.enrolledCourses.includes(courseId)) {
@@ -58,5 +65,35 @@ export const verifyPayment = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal server error during payment verification" });
+  }
+};
+
+export const enrollFreeCourse = async (req, res) => {
+  try {
+    const { courseId, userId } = req.body;
+
+    const course = await Course.findById(courseId);
+    if (!course) return res.status(404).json({ message: "Course not found" });
+
+    // Ensure it's functionally free
+    if (course.price !== 0 && course.price !== "0" && String(course.price).toLowerCase() !== "free") {
+      return res.status(400).json({ message: "Course is not free" });
+    }
+
+    const user = await User.findById(userId);
+    if (!user.enrolledCourses.includes(courseId)) {
+      user.enrolledCourses.push(courseId);
+      await user.save();
+    }
+
+    if (!course.enrolledStudents.includes(userId)) {
+      course.enrolledStudents.push(userId);
+      await course.save();
+    }
+
+    return res.status(200).json({ message: "Free enrollment successful" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error during free enrollment" });
   }
 };

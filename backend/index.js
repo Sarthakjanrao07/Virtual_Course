@@ -16,8 +16,8 @@ let app = express()
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-    origin:"http://localhost:5173",
-    credentials:true
+    origin: [process.env.FRONTEND_URL, "http://localhost:5173"],
+    credentials: true
 }))
 app.use("/api/auth", authRouter)
 app.use("/api/user", userRouter)
@@ -27,12 +27,19 @@ app.use("/api/ai", aiRouter)
 app.use("/api/review", reviewRouter)
 
 
-app.get("/" , (req,res)=>{
+app.get("/", (req, res) => {
     res.send("Hello From Server")
 })
 
-app.listen(port , ()=>{
-    console.log("Server Started")
-    connectDb()
-})
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(port, () => {
+        console.log("Server Started")
+        connectDb()
+    })
+}
+
+// For Vercel
+connectDb()
+export default app
 
