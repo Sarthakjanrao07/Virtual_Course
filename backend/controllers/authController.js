@@ -64,7 +64,7 @@ export const login = async (req, res) => {
             sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
-        return res.status(200).json(user)
+        return res.status(200).json({ user, token })
 
     } catch (error) {
         console.log("login error")
@@ -101,7 +101,7 @@ export const googleSignup = async (req, res) => {
             sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
-        return res.status(200).json(user)
+        return res.status(200).json({ user, token })
 
 
     } catch (error) {

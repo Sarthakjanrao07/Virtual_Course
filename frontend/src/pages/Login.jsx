@@ -25,7 +25,9 @@ function Login() {
         setLoading(true)
         try {
             const result = await axios.post(serverUrl + "/api/auth/login", { email, password }, { withCredentials: true })
-            dispatch(setUserData(result.data))
+            localStorage.setItem("token", result.data.token)
+            axios.defaults.headers.common['Authorization'] = `Bearer ${result.data.token}`
+            dispatch(setUserData(result.data.user))
             navigate("/")
             setLoading(false)
             toast.success("Login Successfully")
@@ -49,7 +51,9 @@ function Login() {
             const result = await axios.post(serverUrl + "/api/auth/googlesignup", { name, email, role }
                 , { withCredentials: true }
             )
-            dispatch(setUserData(result.data))
+            localStorage.setItem("token", result.data.token)
+            axios.defaults.headers.common['Authorization'] = `Bearer ${result.data.token}`
+            dispatch(setUserData(result.data.user))
             navigate("/")
             toast.success("Login Successfully")
         } catch (error) {
