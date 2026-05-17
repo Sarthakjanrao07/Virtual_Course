@@ -1,13 +1,12 @@
+
 import jwt from "jsonwebtoken"
 const isAuth = async (req, res, next) => {
   try {
 
-    // Read token from Cookies OR Authorization Header
-    let token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+    let { token } = req.cookies
 
     if (!token) {
-      // Use 401 (Unauthorized) instead of 400
-      return res.status(401).json({ message: "user doesn't have token" })
+      return res.status(400).json({ message: "user doesn't have token" })
     }
     let verifyToken = jwt.verify(token, process.env.JWT_SECRET)
 

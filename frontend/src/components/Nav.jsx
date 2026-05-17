@@ -5,7 +5,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { GiSplitCross } from "react-icons/gi";
 
 import { useNavigate } from 'react-router-dom';
-import { serverUrl } from '../App';
+import { serverUrl } from '../configs/config';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,7 +21,6 @@ function Nav() {
     try {
       const result = await axios.get(serverUrl + "/api/auth/logout", { withCredentials: true })
       console.log(result.data)
-      localStorage.removeItem("token")
       await dispatch(setUserData(null))
       toast.success("LogOut Successfully")
     } catch (error) {
