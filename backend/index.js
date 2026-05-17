@@ -13,7 +13,11 @@ import reviewRouter from "./routes/reviewRoute.js"
 dotenv.config()
 
 const port = process.env.PORT || 8000
+// const app = express()
+
 const app = express()
+
+app.set("trust proxy", 1)
 
 // Middleware
 app.use(express.json())
