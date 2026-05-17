@@ -1,15 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 @import "tailwindcss";
 
-*{
-   font-family: Outfit;
-   
+* {
+  font-family: Outfit;
+
 }
 
 @keyframes gradientMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .dynamic-gradient-bg {
@@ -18,7 +26,8 @@
   animation: gradientMove 15s ease infinite;
 }
 
-.orb-1, .orb-2 {
+.orb-1,
+.orb-2 {
   position: absolute;
   border-radius: 50%;
   filter: blur(90px);
@@ -30,7 +39,8 @@
 .orb-1 {
   width: 450px;
   height: 450px;
-  background: rgba(124, 58, 237, 0.5); /* Violet glow */
+  background: rgba(124, 58, 237, 0.5);
+  /* Violet glow */
   top: -15%;
   left: -10%;
 }
@@ -38,7 +48,8 @@
 .orb-2 {
   width: 550px;
   height: 550px;
-  background: rgba(37, 99, 235, 0.4); /* Blue glow */
+  background: rgba(37, 99, 235, 0.4);
+  /* Blue glow */
   bottom: -15%;
   right: -10%;
   animation-duration: 12s;
@@ -46,6 +57,11 @@
 }
 
 @keyframes floatOrb {
-  0% { transform: translateY(0px) scale(0.9); }
-  100% { transform: translateY(60px) scale(1.1); }
+  0% {
+    transform: translateY(0px) scale(0.9);
+  }
+
+  100% {
+    transform: translateY(60px) scale(1.1);
+  }
 }

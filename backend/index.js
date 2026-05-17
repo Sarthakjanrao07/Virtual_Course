@@ -9,10 +9,13 @@ import courseRouter from "./routes/courseRoute.js"
 import paymentRouter from "./routes/paymentRoute.js"
 import aiRouter from "./routes/aiRoute.js"
 import reviewRouter from "./routes/reviewRoute.js"
+
 dotenv.config()
 
-let port = process.env.PORT
-let app = express()
+const port = process.env.PORT || 8000
+const app = express()
+
+// Middleware
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
@@ -21,6 +24,11 @@ app.use(cors({
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }))
+
+// Database
+connectDb()
+
+// Routes
 app.use("/api/auth", authRouter)
 app.use("/api/user", userRouter)
 app.use("/api/course", courseRouter)
@@ -28,20 +36,13 @@ app.use("/api/payment", paymentRouter)
 app.use("/api/ai", aiRouter)
 app.use("/api/review", reviewRouter)
 
-
 app.get("/", (req, res) => {
-    res.send("Hello From Server")
+    res.send("LMS API is running...")
 })
 
-// For local development
-if (process.env.NODE_ENV !== 'production') {
-    app.listen(port, () => {
-        console.log("Server Started")
-        connectDb()
-    })
-}
+// Start Server
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`)
+})
 
-// For Vercel
-connectDb()
 export default app
-

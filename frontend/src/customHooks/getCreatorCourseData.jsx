@@ -11,19 +11,15 @@ const getCreatorCourseData = () => {
   return (
     useEffect(() => {
       const getCreatorData = async () => {
+        if (!userData || userData.role !== 'educator') return; // STOP if not logged in or not a teacher
         try {
           const result = await axios.get(serverUrl + "/api/course/getcreatorcourses", { withCredentials: true })
-
           await dispatch(setCreatorCourseData(result.data))
-
-
           console.log(result.data)
-
         } catch (error) {
           console.log(error)
           toast.error(error.response.data.message)
         }
-
       }
       getCreatorData()
     }, [userData])
