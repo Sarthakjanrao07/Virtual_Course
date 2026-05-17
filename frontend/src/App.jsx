@@ -28,6 +28,16 @@ import getAllReviews from './customHooks/getAllReviews'
 
 export const serverUrl = import.meta.env.VITE_API_URL || "http://localhost:8000"
 
+// Global Axios Configuration for Tokens
+axios.defaults.withCredentials = true;
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 function App() {
 
   let { userData } = useSelector(state => state.user)
