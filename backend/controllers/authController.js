@@ -34,8 +34,8 @@ export const signUp = async (req, res) => {
         let token = await genToken(user._id)
         res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
-            sameSite: "none",
+            secure: false,
+            sameSite: "Strict",
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
         return res.status(201).json(user)
@@ -49,7 +49,7 @@ export const signUp = async (req, res) => {
 export const login = async (req, res) => {
     try {
         let { email, password } = req.body
-        let user = await User.findOne({ email })
+        let user = await User.findOne({ email }).populate("enrolledCourses")
         if (!user) {
             return res.status(400).json({ message: "user does not exist" })
         }
@@ -60,8 +60,8 @@ export const login = async (req, res) => {
         let token = await genToken(user._id)
         res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
-            sameSite: "none",
+            secure: false,
+            sameSite: "Strict",
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
         return res.status(200).json(user)
@@ -88,7 +88,7 @@ export const logOut = async (req, res) => {
 export const googleSignup = async (req, res) => {
     try {
         const { name, email, role } = req.body
-        let user = await User.findOne({ email })
+        let user = await User.findOne({ email }).populate("enrolledCourses")
         if (!user) {
             user = await User.create({
                 name, email, role
@@ -97,8 +97,8 @@ export const googleSignup = async (req, res) => {
         let token = await genToken(user._id)
         res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
-            sameSite: "none",
+            secure: false,
+            sameSite: "Strict",
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
         return res.status(200).json(user)

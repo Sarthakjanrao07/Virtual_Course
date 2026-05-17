@@ -20,7 +20,8 @@ const getCreatorCourseData = () => {
           console.log(result.data)
 
         } catch (error) {
-          console.log("Creator data fetch failed (user likely not logged in):", error.response?.data?.message || error.message)
+          console.log(error)
+          toast.error(error.response.data.message)
         }
 
       }
