@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import img from "../../assets/empty.jpg"
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate, useParams } from 'react-router-dom';
-import { serverUrl } from '../../configs/config';
+import { serverUrl } from '../../App';
 import { MdEdit } from "react-icons/md";
 import axios from 'axios';
 import { toast } from 'react-toastify';

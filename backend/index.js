@@ -16,14 +16,10 @@ let app = express()
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: [
-        "https://virtual-course-two.vercel.app",
-        "https://virtual-course-three.vercel.app",
-        process.env.FRONTEND_URL
-    ].filter(Boolean),
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "Cookie"]
+    allowedHeaders: ["Content-Type", "Authorization"]
 }))
 app.use("/api/auth", authRouter)
 app.use("/api/user", userRouter)

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { serverUrl } from '../configs/config'
+import { serverUrl } from '../App'
 import { setUserData } from '../redux/userSlice'
 import { toast } from 'react-toastify'
 import { ClipLoader } from 'react-spinners'

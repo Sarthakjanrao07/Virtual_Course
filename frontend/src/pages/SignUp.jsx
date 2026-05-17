@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import logo from '../assets/logo.jpg'
 import google from '../assets/google.jpg'
 import axios from 'axios'
-import { serverUrl } from '../configs/config'
+import { serverUrl } from '../App'
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 import { MdRemoveRedEye } from "react-icons/md";
